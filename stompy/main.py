@@ -1,9 +1,10 @@
 """Defines the main entrypoint for the Discord bot."""
 
-from typing import Final
-import os
-from discord import Intents, Client, Message
 import logging
+import os
+from typing import Final
+
+from discord import Client, Intents, Message
 
 logger = logging.getLogger(__name__)
 
