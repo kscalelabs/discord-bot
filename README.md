@@ -18,6 +18,22 @@
 
 This is the source code for the K-Scale Labs Discord bot.
 
+## Installation
+
+To develop this bot, you can use [uv](https://astral.sh/blog/uv):
+
+```bash
+uv venv .venv --python 3.11
+source .venv/bin/activate
+pip install -e '.[dev]'  # Installs the package with developer dependencies
+```
+
+Run the main bot locally using:
+
+```bash
+make serve-local
+```
+
 ## Functionality
 
 - [ ] Automatically scrapes Arxiv for new papers and posts them to the `#arxiv` channel
