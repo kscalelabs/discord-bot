@@ -3,21 +3,21 @@
 from typing import Final
 import os
 from discord import Intents, Client, Message
-from dotenv import load_dotenv
 import logging
 
 logger = logging.getLogger(__name__)
 
-load_dotenv()
-TOKEN: Final[str] = os.getenv("DISCORD_TOKEN")
+# Gets the Stompy Discord token.
+TOKEN: Final[str] = os.environ["STOMPY_DISCORD_TOKEN"]
 
+# Creates the client with the default intents.
 intents: Intents = Intents.default()
 intents.message_content = True
 client: Client = Client(intents=intents)
 
 
 async def get_response(user_message: str) -> str:
-    return "test"
+    return user_message.replace("?", "!")
 
 
 async def send_message(message: Message, user_message: str) -> None:
@@ -38,6 +38,7 @@ async def on_ready() -> None:
     logger.info("%s is now running", client.user)
 
 
+@client.event
 async def on_message(message: Message) -> None:
     if message.author == client.user:
         return
