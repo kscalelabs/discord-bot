@@ -1,0 +1,8 @@
+# requirements.txt
+
+# Discord API
+discord
+
+# Managing environment variables
+python-dotenv
+
