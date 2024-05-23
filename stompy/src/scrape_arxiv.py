@@ -22,7 +22,6 @@ def scrape_arxiv2() -> List[List[str]]:
         "sortOrder": "descending"
     }
     list = [[],[],[],[],[]]
-    ct = 0
     response = requests.get(base_url,params=query_params)
     xml_text = response.text
     root = ET.fromstring(xml_text)
@@ -36,7 +35,6 @@ def scrape_arxiv2() -> List[List[str]]:
                 curdate = entry[i].text[:10]
                 date = curdate
                 if curdate < str(one_week_ago):
-                    print("found " + str(ct) + " entries")
                     return list
             elif (newtag=="link"):
                 link_text = entry[i].attrib.get("href",None)
@@ -54,13 +52,11 @@ def scrape_arxiv2() -> List[List[str]]:
         list[2].append(",".join(authors).replace("\n ","").replace("\n",""))
         list[3].append(summary.replace("\n ","").replace("\n",""))
         list[4].append(title.replace("\n ","").replace("\n",""))
-        ct+=1
-    print("Found " + str(ct) + " entries!")
     return list
 
-"""def main() -> None:
+def main() -> List[List[str]]:
     list = scrape_arxiv2()
-    print(list)"""
+    return list
 
 if __name__ == "__main__":
     # python -m stompy.scrape_arxiv
