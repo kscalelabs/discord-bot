@@ -1,15 +1,14 @@
 """Defines the main entrypoint for the Discord bot."""
 
-from typing import Final
-import os
-import sys
-from discord import Intents, Client, Message
 import logging
-import requests
-from openai import OpenAI
+import os
+from typing import Final, List
+
+from discord import Client, Intents, Message
 from dotenv import load_dotenv
+from openai import OpenAI
+
 from stompy.src.scrape_arxiv import scrape_arxiv2
-from typing import List
 
 logger = logging.getLogger(__name__)
 load_dotenv()

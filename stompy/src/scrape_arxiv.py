@@ -1,5 +1,3 @@
-"""Defines a code which scrapes the cs.RO tag on Arxiv and parses the titles from XML."""
-
 import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
