@@ -27,61 +27,52 @@ client: Client = Client(intents=intents)
 # author affiliation
 # one sentence summary
 # no publish date
-# embed link into the titlegit 
+# embed link into the titlegit
+
 
 async def get_response(user_message: str) -> List[str]:
     response = []
-    if (user_message=="humanoid"):
+    if user_message == "humanoid":
         list = scrape_arxiv2()
         return_message = "\n"
-        return_message += "Within the last week there were " + str(len(list[0])) + " humanoid related papers published on arXiv!\n"
+        return_message += (
+            "Within the last week there were " + str(len(list[0])) + " humanoid related papers published on arXiv!\n"
+        )
         response.append(return_message)
         for i in range(0, len(list[0])):
             return_message = ""
-            return_message += "## " + str(i+1) + ". " + list[4][i] + "\n"
+            return_message += "## " + str(i + 1) + ". " + list[4][i] + "\n"
             return_message += "**Authors:** " + list[2][i] + "\n"
             return_message += "**Published:** " + list[1][i] + "\n"
-            completion  = ai_client.chat.completions.create(
+            completion = ai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant."
-                    },
-                    {
-                        "role": "user",
-                        "content": "summarize the following article in 2 sentences: " + list[3][i]
-                    }
-                ]
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": "summarize the following article in 2 sentences: " + list[3][i]},
+                ],
             )
             summary = completion.choices[0].message.content
             return_message += "**Summary:** " + summary + "\n"
             return_message += "**Read more:** " + list[0][i] + "\n"
             response.append(return_message)
     else:
-        completion  = ai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant."
-                    },
-                    {
-                        "role": "user",
-                        "content": "summarize the following article in 2 sentences: " + list[3][i]
-                    }
-                ]
-            )
+        completion = ai_client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "summarize the following article in 2 sentences: " + list[3][i]},
+            ],
+        )
         response.append(completion.choices[0].message.content)
     return response
 
 
 async def send_message(message: Message, user_message: str) -> None:
-    
+
     if not user_message:
         logger.info("Message was empty because intents were not enabled probably")
         return
-    if (user_message[0]!="!" and user_message[0]!="?"):
+    if user_message[0] != "!" and user_message[0] != "?":
         return
     is_private = user_message[0] == "?"
     user_message = user_message[1:]
