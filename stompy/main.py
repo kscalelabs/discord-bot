@@ -1,6 +1,5 @@
 """Defines the main entrypoint for the Discord bot."""
 
-<<<<<<< HEAD
 from typing import Final
 import os
 import sys
@@ -11,13 +10,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from stompy.src.scrape_arxiv import scrape_arxiv2
 from typing import List
-=======
-import logging
-import os
-from typing import Final
-
-from discord import Client, Intents, Message
->>>>>>> 297866150eeaf9f6f22a063c96f5de7f5ac96dd8
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -30,6 +22,12 @@ intents: Intents = Intents.default()
 intents.message_content = True
 client: Client = Client(intents=intents)
 
+# instead of humanoid search : cs.ro
+# time based : every day
+# author affiliation
+# one sentence summary
+# no publish date
+# embed link into the titlegit 
 
 async def get_response(user_message: str) -> List[str]:
     response = []

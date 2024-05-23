@@ -7,7 +7,6 @@ from typing import List
 
 def scrape_arxiv2() -> List[List[str]]:
 
-    url = "http://export.arxiv.org/api/query?search_query=all:electron&start=0&max_results=5"
     base_url = "http://export.arxiv.org/api/query"
 
     one_week_ago = datetime.now() - timedelta(weeks=1)
@@ -22,7 +21,6 @@ def scrape_arxiv2() -> List[List[str]]:
         "sortOrder": "descending"
     }
     list = [[],[],[],[],[]]
-    ct = 0
     response = requests.get(base_url,params=query_params)
     xml_text = response.text
     root = ET.fromstring(xml_text)
@@ -36,7 +34,6 @@ def scrape_arxiv2() -> List[List[str]]:
                 curdate = entry[i].text[:10]
                 date = curdate
                 if curdate < str(one_week_ago):
-                    print("found " + str(ct) + " entries")
                     return list
             elif (newtag=="link"):
                 link_text = entry[i].attrib.get("href",None)
@@ -54,14 +51,12 @@ def scrape_arxiv2() -> List[List[str]]:
         list[2].append(",".join(authors).replace("\n ","").replace("\n",""))
         list[3].append(summary.replace("\n ","").replace("\n",""))
         list[4].append(title.replace("\n ","").replace("\n",""))
-        ct+=1
-    print("Found " + str(ct) + " entries!")
     return list
 
-"""def main() -> None:
+def main() -> None:
     list = scrape_arxiv2()
-    print(list)"""
+    print(list)
 
 if __name__ == "__main__":
     # python -m stompy.scrape_arxiv
-    scrape_arxiv2()
+    main()
