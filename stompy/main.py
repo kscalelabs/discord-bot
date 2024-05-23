@@ -1,5 +1,6 @@
 """Defines the main entrypoint for the Discord bot."""
 
+<<<<<<< HEAD
 from typing import Final
 import os
 import sys
@@ -10,6 +11,13 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from stompy.src.scrape_arxiv import scrape_arxiv2
 from typing import List
+=======
+import logging
+import os
+from typing import Final
+
+from discord import Client, Intents, Message
+>>>>>>> 297866150eeaf9f6f22a063c96f5de7f5ac96dd8
 
 logger = logging.getLogger(__name__)
 load_dotenv()

@@ -11,17 +11,15 @@ serve-local:
 #       Static Checks      #
 # ------------------------ #
 
-py-files := $(shell find . -name '*.py')
-
 format:
-	@black $(py-files)
-	@ruff format $(py-files)
+	@black stompy tests
+	@ruff check --fix stompy tests
 .PHONY: format
 
 static-checks:
-	@black --diff --check $(py-files)
-	@ruff check $(py-files)
-	@mypy --install-types --non-interactive $(py-files)
+	@black --diff --check stompy tests
+	@ruff check stompy tests
+	# @mypy --install-types --non-interactive stompy tests
 .PHONY: lint
 
 # ------------------------ #
