@@ -6,24 +6,43 @@ from io import BytesIO
 import pdfplumber
 import requests
 from openai import OpenAI
-from PIL import Image
 
 ai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 
 # def scrape_pdf2(url: str) -> str:
-def scrape_pdf2() -> str:
-    url = "https://arxiv.org/pdf/2405.12959"
+def scrape_pdf_text(url: str) -> str:
     text = ""
     response = requests.get(url)
-    image_number = 0
+    number = 0
     with pdfplumber.open(BytesIO(response.content)) as pdf:
         for page in pdf.pages:
             text += page.extract_text()
-            for img in page.images:
+            number += 1
+            break
+    pdf.close()
+    return text
+
+
+def scrape_pdf_image(url: str, x: int) -> str | None:
+    text = ""
+    response = requests.get(url)
+
+    with pdfplumber.open(BytesIO(response.content)) as pdf:
+        for page in pdf.pages:
+            text += page.extract_text()
+            image = page.to_image(resolution=300)
+            image_path = f"image{x}.png"
+            #print(image_path)
+            image.save(image_path, quality=95)
+            # pillow_image = Image.open(image_path)
+            # pillow_image.show()
+            return image_path
+
+            """for img in page.images:
                 x0, y0, x1, y1 = img["x0"], img["y0"], img["x1"], img["y1"]
                 image = page.to_image(resolution=300)
-                image_path = f"image{image_number}.png"
+                image_path = f"image{number}.png"
                 image.save(image_path, quality=95)
 
                 pillow_image = Image.open(image_path)
@@ -31,13 +50,14 @@ def scrape_pdf2() -> str:
                 cropped_image = pillow_image.crop((x0, y0, x1, y1))
                 cropped_image.show()
                 print("showed another image")
-                image_number += 1
-    pdf.close()
-    return text
+                number += 1"""
+
+    return None
 
 
 def main() -> None:
-    scrape_pdf2()
+    scrape_pdf_image("", 0)
+    scrape_pdf_text("")
 
 
 if __name__ == "__main__":

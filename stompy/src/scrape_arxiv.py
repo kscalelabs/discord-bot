@@ -17,7 +17,7 @@ def scrape_arxiv2() -> list[list[str]]:
     query_params: Dict[str, Any] = {
         "search_query": "all:cs.ro",
         "start": 0,
-        "max_results": 10,
+        "max_results": 3,
         "sortBy": "submittedDate",
         "sortOrder": "descending",
     }
@@ -64,6 +64,7 @@ def scrape_arxiv2() -> list[list[str]]:
                     continue
                 title = entry[i].text or "No title found"
         authors.pop(0)
+        link = link.replace("html", "pdf", 1)
         ret_list[0].append(link.replace("\n ", "").replace("\n", ""))
         ret_list[1].append(date.replace("\n ", "").replace("\n", ""))
         ret_list[2].append(", ".join(authors).replace("\n ", "").replace("\n", ""))
